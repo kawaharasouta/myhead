@@ -8,7 +8,9 @@
 
 #define DEFAULT_N_LINES 10
 
-static struct options[] = {
+static void do_head(FILE *f, long nlines);
+
+static struct option longopts[] = {
 	{"lines", required_argument, NULL, 'n'},
 	{"helop", no_argument, NULL, 'h'},
 	{0, 0, 0, 0}
@@ -18,17 +20,22 @@ int main(int argc, char *argv[]){
 	int opt;
 	long nlines = DEFAULT_N_LINES;
 
-	while((otp = getopt_long(argc, argv, "n:", longopts, NULL)) != -1){
+	if(argc < 2){
+		fprintf(stderr, "Usage: %s [-n lines] [FILE ...]\n", argv[0]);
+		exit(1);
+	}
+
+	while((opt = getopt_long(argc, argv, "n:", longopts, NULL)) != -1){
 		switch(opt){
 		case 'n':
 			nlines = atol(optarg);
 			break;
 		case 'h':
-			fprintf(stdout, "Usage: %s [in lines] [FILE ...]\n", argv[0]);
+			fprintf(stdout, "Usage: %s [-n lines] [FILE ...]\n", argv[0]);
 			exit(0);
 		case '?':
-			fprintf(stderr, "Usage: %s [in lines] [FILE ...]\n", argv[0]);
-			exit(1)
+			fprintf(stderr, "Usage: %s [-n lines] [FILE ...]\n", argv[0]);
+			exit(1);
 		}
 	}
 
@@ -41,13 +48,13 @@ int main(int argc, char *argv[]){
 	else {
 		int i;
 
-		for(i = optind, i < argc, i++){
+		for(i = optind; i < argc; i++){
 			FILE *f;
 
 			f = fopen(argv[i], "r");
 			if(!f){
 				perror(argv[i]);
-				exit(1)
+				exit(1);
 			}
 			do_head(f, nlines);
 			fclose(f);
