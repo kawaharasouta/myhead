@@ -12,7 +12,7 @@ static void do_head(FILE *f, long nlines);
 
 static struct option longopts[] = {
 	{"lines", required_argument, NULL, 'n'},
-	{"helop", no_argument, NULL, 'h'},
+	{"help", no_argument, NULL, 'h'},
 	{0, 0, 0, 0}
 };
 
@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
 		exit(1);
 	}
 
-	while((opt = getopt_long(argc, argv, "n:", longopts, NULL)) != -1){
+	while((opt = getopt_long(argc, argv, "n:h", longopts, NULL)) != -1){
 		switch(opt){
 		case 'n':
 			nlines = atol(optarg);
