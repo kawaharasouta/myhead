@@ -16,6 +16,7 @@ static struct option longopts[] = {
 	{0, 0, 0, 0}
 };
 
+
 int main(int argc, char *argv[]){
 	int opt;
 	long nlines = DEFAULT_N_LINES;
